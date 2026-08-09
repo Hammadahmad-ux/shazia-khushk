@@ -1,0 +1,55 @@
+:root {
+  /* Temporary neutral palette: replace after corrected brand assets are approved. */
+  --background: #f7f7f5;
+  --foreground: #151515;
+  --surface: #ffffff;
+  --muted: #62625f;
+  --border: #deded9;
+  --accent: #5a2433;
+  --accent-contrast: #ffffff;
+  --focus: #5a2433;
+
+  --font-body: var(--font-public-sans);
+  --font-display: var(--font-newsreader);
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-body: 1rem;
+  --text-lg: clamp(1.125rem, 1.5vw, 1.25rem);
+  --text-xl: clamp(1.5rem, 2.5vw, 2rem);
+  --text-display: clamp(2.25rem, 6vw, 5.25rem);
+  --leading-tight: 1.05;
+  --leading-heading: 1.15;
+  --leading-body: 1.6;
+  --tracking-label: 0.08em;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+
+  --container-max: 90rem;
+  --container-gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-space-sm: clamp(3rem, 8vw, 4.5rem);
+  --section-space-lg: clamp(5rem, 9vw, 8rem);
+
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+
+  --transition-fast: 160ms;
+  --transition-base: 220ms;
+  --transition-slow: 300ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  --announcement-height: 1.5rem;
+  --header-height: 4.25rem;
+}
