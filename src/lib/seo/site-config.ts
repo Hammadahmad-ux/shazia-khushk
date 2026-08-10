@@ -8,7 +8,21 @@ export const siteName = "Shazia Khushk";
 
 const DEFAULT_SITE_URL = "https://shazia-khushk.vercel.app";
 
-export const siteUrl = (process.env.SITE_URL ?? DEFAULT_SITE_URL).replace(/\/+$/, "");
+// An env var that's unset, empty, whitespace-only, or missing its
+// protocol must never crash the build -- this module is imported by
+// the root layout (metadataBase) and used on every page, so an invalid
+// value here would fail the entire site rather than just SEO metadata.
+function resolveSiteUrl(): string {
+  const raw = process.env.SITE_URL?.trim();
+  if (!raw) return DEFAULT_SITE_URL;
+  try {
+    return new URL(raw).toString().replace(/\/+$/, "");
+  } catch {
+    return DEFAULT_SITE_URL;
+  }
+}
+
+export const siteUrl = resolveSiteUrl();
 
 export function absoluteUrl(path: string): string {
   return new URL(path, siteUrl).toString();

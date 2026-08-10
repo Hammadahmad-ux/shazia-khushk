@@ -3,7 +3,20 @@ import type { NextConfig } from "next";
 // Derived from the same env var the server already uses for Supabase,
 // rather than hardcoding this project's ref -- next/image refuses to
 // optimize a remote image unless its host is explicitly allow-listed.
-const supabaseHostname = process.env.SUPABASE_URL ? new URL(process.env.SUPABASE_URL).hostname : undefined;
+// A malformed value must not crash the whole build (this file is
+// evaluated up front, before any request-time error handling exists),
+// so an invalid URL just falls back to no allow-listed host instead of
+// throwing during `next build`.
+function supabaseHostnameFromEnv(): string | undefined {
+  if (!process.env.SUPABASE_URL) return undefined;
+  try {
+    return new URL(process.env.SUPABASE_URL).hostname;
+  } catch {
+    return undefined;
+  }
+}
+
+const supabaseHostname = supabaseHostnameFromEnv();
 
 const nextConfig: NextConfig = {
   experimental: {
