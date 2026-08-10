@@ -21,7 +21,7 @@ export function ShopCollectionExperience({ collection, products }: ShopCollectio
   );
 
   return (
-    <section className="shop-experience" aria-labelledby="shop-grid-title">
+    <section aria-labelledby="shop-grid-title" className="shop-experience" id="shop-products" tabIndex={-1}>
       <div className="shop-experience__controls">
         <nav aria-label="Shop categories" className="shop-experience__categories">
           <Link aria-current={collection === undefined ? "page" : undefined} href="/shop">
@@ -34,7 +34,7 @@ export function ShopCollectionExperience({ collection, products }: ShopCollectio
           ))}
         </nav>
         <label className="shop-experience__sort">
-          <span>Sort by</span>
+          <span>Sort:</span>
           <select aria-label="Sort products" onChange={(event) => setSort(event.target.value as SortOption)} value={sort}>
             <option value="featured">Featured</option>
             <option value="newest">Newest</option>

@@ -6,10 +6,14 @@ export function RelatedProducts({ products }: { products: readonly ShopProduct[]
 
   return (
     <section aria-labelledby="related-products-title" className="pdp-related">
-      <h2 id="related-products-title">You may also like</h2>
+      <div className="pdp-related__intro">
+        <p className="pdp-related__eyebrow">Discover more</p>
+        <h2 id="related-products-title">You may also like</h2>
+        <p className="pdp-related__description">A considered selection from the Shazia Khushk edit.</p>
+      </div>
       <div className="pdp-related__grid">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} sizes="(min-width: 1024px) 23vw, 52vw" />
+          <ProductCard key={product.id} product={product} sizes="(min-width: 1024px) 23vw, 50vw" />
         ))}
       </div>
     </section>

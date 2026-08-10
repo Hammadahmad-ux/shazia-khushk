@@ -204,6 +204,9 @@ export function ProductDetail({ product }: { product: PdpProduct }) {
 
           <button className="pdp-add-to-cart" disabled={!canPurchase} onClick={handleAddToCart} type="button">
             {ctaLabel}
+            <span aria-hidden="true" className="pdp-add-to-cart__arrow">
+              &rarr;
+            </span>
           </button>
 
           {!product.purchasable && <p className="pdp-purchase__notice">This catalogue entry is not yet available to purchase.</p>}
@@ -235,7 +238,7 @@ export function ProductDetail({ product }: { product: PdpProduct }) {
             <details key={detail.title} open={index === 0}>
               <summary>
                 {detail.title}
-                <span aria-hidden="true">+</span>
+                <span aria-hidden="true" className="pdp-details__indicator" />
               </summary>
               {typeof detail.content === "string" ? (
                 <p>{detail.content}</p>

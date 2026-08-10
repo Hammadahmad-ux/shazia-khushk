@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 
 import { ShopCollectionExperience } from "@/components/shop/shop-collection-experience";
+import { ShopHero } from "@/components/shop/shop-hero";
 import { listLiveShopProducts } from "@/lib/catalog/supabase-catalog";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { absoluteUrl } from "@/lib/seo/site-config";
@@ -39,23 +39,7 @@ export default async function ShopPage() {
 
   return (
     <div className="shop-page">
-      <header className="shop-page__intro">
-        <div className="shop-page__intro-copy">
-          <p>Curated selection</p>
-          <h1>Shop</h1>
-          <p className="shop-page__description">Explore our curated edit of clothing, fragrance and everyday care.</p>
-        </div>
-        <div className="shop-page__intro-image">
-          <Image
-            alt="Shazia Khushk clothing editorial"
-            className="object-cover object-[68%_center]"
-            fill
-            priority
-            sizes="(min-width: 1024px) 55vw, 100vw"
-            src="/images/home/hero-editorial.png"
-          />
-        </div>
-      </header>
+      <ShopHero />
       {loadError ? (
         <p className="shop-notice" role="status">
           We couldn&rsquo;t load the catalog right now. Please try again in a moment.

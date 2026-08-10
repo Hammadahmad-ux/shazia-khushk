@@ -36,7 +36,10 @@ export function ProductCard({ product, sizes = DEFAULT_SIZES, priority = false }
           </p>
         )}
         <span className="product-card__cta">
-          View product <span aria-hidden="true">&rarr;</span>
+          View product{" "}
+          <span aria-hidden="true" className="product-card__cta-arrow">
+            &rarr;
+          </span>
         </span>
       </div>
     </Link>

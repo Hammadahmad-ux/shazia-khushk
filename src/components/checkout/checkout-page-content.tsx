@@ -125,7 +125,7 @@ export function CheckoutPageContent() {
         <p className="checkout-page__eyebrow">Your order</p>
         <h1>Your cart is empty.</h1>
         <Link className="checkout-page__continue" href="/shop">
-          Continue shopping
+          Continue shopping <span aria-hidden="true">&rarr;</span>
         </Link>
       </section>
     );
@@ -134,14 +134,18 @@ export function CheckoutPageContent() {
   return (
     <section className="checkout-page">
       <header className="checkout-page__header">
-        <p className="checkout-page__eyebrow">Checkout</p>
-        <h1>Checkout</h1>
+        <p className="checkout-page__eyebrow">Secure checkout</p>
+        <h1>Complete your order</h1>
+        <p className="checkout-page__intro">Enter your delivery details and place your order with Cash on Delivery.</p>
       </header>
 
       <form className="checkout-page__layout" noValidate onSubmit={handleSubmit}>
         <div className="checkout-form">
           <section aria-labelledby="checkout-contact-heading" className="checkout-section">
-            <h2 id="checkout-contact-heading">Contact</h2>
+            <h2 id="checkout-contact-heading">
+              <span aria-hidden="true" className="checkout-section__number">01</span>
+              Contact
+            </h2>
             <div className="checkout-field-grid">
               <CheckoutTextField
                 autoComplete="name"
@@ -189,7 +193,10 @@ export function CheckoutPageContent() {
           </section>
 
           <section aria-labelledby="checkout-address-heading" className="checkout-section">
-            <h2 id="checkout-address-heading">Delivery Address</h2>
+            <h2 id="checkout-address-heading">
+              <span aria-hidden="true" className="checkout-section__number">02</span>
+              Delivery Address
+            </h2>
             <div className="checkout-field-grid">
               <CheckoutTextField
                 autoComplete="address-line1"
@@ -250,14 +257,26 @@ export function CheckoutPageContent() {
           </section>
 
           <section aria-labelledby="checkout-delivery-heading" className="checkout-section">
-            <h2 id="checkout-delivery-heading">Delivery Method</h2>
-            <p className="checkout-delivery-pending">
-              Nationwide flat-rate shipping — <CartPrice amountMinor={shipping.flatRateMinor} />. Orders are fulfilled via TCS or Leopards.
-            </p>
+            <h2 id="checkout-delivery-heading">
+              <span aria-hidden="true" className="checkout-section__number">03</span>
+              Delivery Method
+            </h2>
+            <div className="checkout-delivery">
+              <div className="checkout-delivery__row">
+                <span>Nationwide shipping</span>
+                <strong>
+                  <CartPrice amountMinor={shipping.flatRateMinor} />
+                </strong>
+              </div>
+              <p className="checkout-delivery__couriers">Fulfilled via TCS or Leopards</p>
+            </div>
           </section>
 
           <section aria-labelledby="checkout-payment-heading" className="checkout-section">
-            <h2 id="checkout-payment-heading">Payment</h2>
+            <h2 id="checkout-payment-heading">
+              <span aria-hidden="true" className="checkout-section__number">04</span>
+              Payment
+            </h2>
             <div
               aria-describedby={visibleErrors.paymentMethod ? "paymentMethod-error" : undefined}
               aria-labelledby="checkout-payment-heading"
@@ -341,8 +360,26 @@ export function CheckoutPageContent() {
           )}
 
           <button className="checkout-place-order" disabled={isSubmitting} type="submit">
-            {isSubmitting ? "Placing order…" : "Place Order"}
+            {isSubmitting ? (
+              "Placing order…"
+            ) : (
+              <>
+                <span className="checkout-place-order__label">
+                  <span>Place Order</span>
+                  <span className="checkout-place-order__method">Cash on Delivery</span>
+                </span>
+                <span aria-hidden="true" className="checkout-place-order__arrow">
+                  &rarr;
+                </span>
+              </>
+            )}
           </button>
+          <ul className="checkout-summary__notes">
+            <li>Cash on Delivery</li>
+            <li>Flat shipping — Rs 199</li>
+            <li>TCS / Leopards</li>
+            <li>7-day return &amp; exchange</li>
+          </ul>
         </aside>
       </form>
     </section>

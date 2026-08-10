@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 
-import Image from "next/image";
-
+import { EditorialIntro } from "@/components/shop/editorial-intro";
 import { ShopCollectionExperience } from "@/components/shop/shop-collection-experience";
-import { getShopCategory, type ShopProduct } from "@/data/shop-catalog";
+import { getShopCategory, type ShopCategory, type ShopProduct } from "@/data/shop-catalog";
 import { listLiveShopProducts } from "@/lib/catalog/supabase-catalog";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
 import { absoluteUrl } from "@/lib/seo/site-config";
@@ -12,6 +12,48 @@ import { absoluteUrl } from "@/lib/seo/site-config";
 interface CollectionPageProps {
   params: Promise<{ slug: string }>;
 }
+
+interface CollectionIntro {
+  title: ReactNode;
+  description: string;
+  /** CSS object-position so each collection's hero crop favours its focal subject. */
+  objectPosition?: string;
+}
+
+const collectionIntros: Record<ShopCategory, CollectionIntro> = {
+  clothing: {
+    title: (
+      <>
+        Traditional silhouettes,
+        <br />
+        edited for today.
+      </>
+    ),
+    description: "A refined selection of occasion and everyday pieces from the Shazia Khushk edit.",
+    objectPosition: "center 45%",
+  },
+  fragrance: {
+    title: (
+      <>
+        Scents for every
+        <br />
+        expression.
+      </>
+    ),
+    description: "Explore the fragrance edit through a considered selection of signature bottles.",
+    objectPosition: "center 55%",
+  },
+  "beauty-hair-care": {
+    title: (
+      <>
+        Everyday care,
+        <br />
+        thoughtfully presented.
+      </>
+    ),
+    description: "A focused edit of beauty and hair-care essentials for everyday routines.",
+  },
+};
 
 // Admin-created/edited products must appear here without a rebuild.
 export const dynamic = "force-dynamic";
@@ -26,12 +68,12 @@ export async function generateMetadata({ params }: CollectionPageProps): Promise
 
   return {
     title: collection.label,
-    description: collection.description,
+    description: collectionIntros[collection.slug].description,
     alternates: { canonical: `/collections/${slug}` },
     openGraph: {
       type: "website",
       title: `${collection.label} — Shazia Khushk`,
-      description: collection.description,
+      description: collectionIntros[collection.slug].description,
       url: absoluteUrl(`/collections/${slug}`),
       images: [{ url: absoluteUrl(collection.image), alt: collection.label }],
     },
@@ -59,18 +101,19 @@ export default async function CollectionPage({ params }: CollectionPageProps) {
     }
   }
 
+  const intro = collectionIntros[collection.slug];
+
   return (
     <div className="shop-page">
-      <header className="collection-page__hero">
-        <div className="collection-page__hero-copy">
-          <p>Curated selection</p>
-          <h1>{collection.label}</h1>
-          <p className="shop-page__description">{collection.description}</p>
-        </div>
-        <div className="collection-page__hero-image">
-          <Image alt="" className="object-cover" fill priority sizes="(min-width: 1024px) 48vw, 100vw" src={collection.image} />
-        </div>
-      </header>
+      <EditorialIntro
+        alt={collection.label}
+        description={intro.description}
+        eyebrow={collection.label}
+        image={collection.image}
+        objectPosition={intro.objectPosition}
+        priority
+        title={intro.title}
+      />
       {loadError ? (
         <p className="shop-notice" role="status">
           We couldn&rsquo;t load the catalog right now. Please try again in a moment.
