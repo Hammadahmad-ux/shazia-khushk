@@ -2,14 +2,8 @@ import type { Metadata } from "next";
 import { Newsreader, Public_Sans } from "next/font/google";
 import type { ReactNode } from "react";
 
-import { AnnouncementBar } from "@/components/layout/announcement-bar";
-import { CartDrawer } from "@/components/cart/cart-drawer";
-import { CartProvider } from "@/components/cart/cart-context";
-import { Container } from "@/components/layout/container";
-import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
-
 import "./globals.css";
+import { absoluteUrl, siteName, siteUrl } from "@/lib/seo/site-config";
 
 const bodyFont = Public_Sans({
   variable: "--font-public-sans",
@@ -24,11 +18,42 @@ const displayFont = Newsreader({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Shazia Khushk",
+    default: "Shazia Khushk — Clothing, Fragrance & Everyday Care",
     template: "%s | Shazia Khushk",
   },
-  description: "Shazia Khushk online store.",
+  description:
+    "Shop the Shazia Khushk edit — traditional clothing, expressive fragrance and everyday hair care. Nationwide flat-rate delivery in Pakistan with Cash on Delivery.",
+  applicationName: siteName,
+  openGraph: {
+    type: "website",
+    locale: "en_PK",
+    url: siteUrl,
+    siteName,
+    title: "Shazia Khushk — Clothing, Fragrance & Everyday Care",
+    description:
+      "Shop the Shazia Khushk edit — traditional clothing, expressive fragrance and everyday hair care. Cash on Delivery, nationwide.",
+    images: [
+      {
+        url: absoluteUrl("/brand/shazia-khushk-mark.png"),
+        width: 700,
+        height: 145,
+        alt: "Shazia Khushk",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: "Shazia Khushk — Clothing, Fragrance & Everyday Care",
+    description:
+      "Shop the Shazia Khushk edit — traditional clothing, expressive fragrance and everyday hair care.",
+    images: [absoluteUrl("/brand/shazia-khushk-mark.png")],
+  },
+  icons: {
+    icon: [{ url: "/brand/shazia-khushk-mark.png", type: "image/png" }],
+    apple: [{ url: "/brand/shazia-khushk-mark.png" }],
+  },
 };
 
 type RootLayoutProps = Readonly<{
@@ -38,20 +63,7 @@ type RootLayoutProps = Readonly<{
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en-PK" className={`${bodyFont.variable} ${displayFont.variable}`}>
-      <body>
-        <CartProvider>
-        <a className="skip-link" href="#main-content">
-          Skip to main content
-        </a>
-        <AnnouncementBar message="Shazia Khushk · Pakistan" />
-        <SiteHeader />
-        <main id="main-content" className="site-main">
-          <Container>{children}</Container>
-        </main>
-        <SiteFooter />
-        <CartDrawer />
-        </CartProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

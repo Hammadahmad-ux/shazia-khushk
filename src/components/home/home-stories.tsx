@@ -27,7 +27,7 @@ export function HomeStories() {
         <div className="grid gap-4 lg:grid-cols-2">
           <article className="home-story-card home-story-card--clothing">
             <div className="home-story-card__copy">
-              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-accent uppercase">Handcrafted</p>
+              <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-accent uppercase">The Shazia Khushk edit</p>
               <h2 className="mt-4 font-display text-[clamp(2rem,3.4vw,3.25rem)] leading-[1.02] tracking-[-0.02em]">
                 Rooted in heritage. Designed for you.
               </h2>

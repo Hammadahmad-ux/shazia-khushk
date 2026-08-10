@@ -2,12 +2,24 @@ import { shopProducts, type ShopProduct } from "@/data/shop-catalog";
 
 export type PdpMedia = { src: string; alt: string };
 export type PdpOptionGroup = { name: string; values: readonly string[] };
-export type PdpDetailSection = { title: string; content: string };
+export type PdpDetailSection = { title: string; content: string | readonly string[] };
+
+/** One real product_variants row, carrying its own price so the purchase panel reflects the exact combination a customer selected rather than the cheapest overall. */
+export type PdpVariant = {
+  id: string;
+  variantLabel: string | null;
+  options: Readonly<Partial<Record<string, string>>>;
+  priceMinor: number | null;
+  compareAtPriceMinor: number | null;
+  active: boolean;
+  quantityAvailable: number;
+};
 
 export type PdpProduct = ShopProduct & {
   slug: string;
   gallery: readonly PdpMedia[];
   options: readonly PdpOptionGroup[];
+  variants: readonly PdpVariant[];
   details: readonly PdpDetailSection[];
   priceMinor: number | null;
   purchasable: boolean;
@@ -55,7 +67,10 @@ export const pdpProducts: readonly PdpProduct[] = shopProducts.map((product) => 
   slug: product.href.split("/").at(-1) ?? product.id,
   gallery: galleryByProductId[product.id] ?? [{ src: product.image, alt: product.alt }],
   options: [],
+  variants: [],
   priceMinor: null,
+  compareAtPriceMinor: null,
+  priceVaries: false,
   details: detailsByProductId[product.id] ?? [],
   purchasable: false,
 }));

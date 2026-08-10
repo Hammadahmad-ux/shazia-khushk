@@ -34,6 +34,12 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# supabase local tooling metadata (project refs, pooler URLs) --
+# never commit; contains environment/project details, not source.
+supabase/.temp/
+supabase/.branches/
 
 # vercel
 .vercel

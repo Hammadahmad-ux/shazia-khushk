@@ -31,7 +31,7 @@ interface CartContextValue {
   itemCount: number;
   subtotalMinor: number;
   isOpen: boolean;
-  addItem: (product: CartProductInput) => boolean;
+  addItem: (product: CartProductInput, quantity?: number) => boolean;
   updateQuantity: (lineId: string, quantity: number) => void;
   removeItem: (lineId: string) => void;
   clearCart: () => void;
@@ -71,15 +71,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, []);
   useEffect(() => { if (hydrated) window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); }, [hydrated, items]);
 
-  const addItem = useCallback((product: CartProductInput) => {
+  const addItem = useCallback((product: CartProductInput, quantity: number = 1) => {
     if (product.unitPriceMinor === null || !Number.isFinite(product.unitPriceMinor) || product.unitPriceMinor < 0) return false;
+    const safeQuantity = Math.min(99, Math.max(1, Math.floor(quantity)));
     const unitPriceMinor = product.unitPriceMinor;
     const variantLabel = product.variantLabel ?? null;
     const id = `${product.productId}:${variantLabel ?? "default"}`;
     setItems((current) => {
       const existing = current.find((item) => item.id === id);
-      if (existing) return current.map((item) => item.id === id ? { ...item, quantity: item.quantity + 1 } : item);
-      return [...current, { id, productId: product.productId, productSlug: product.productSlug, title: product.title, image: product.image, imageAlt: product.imageAlt, variantLabel, unitPriceMinor, currency: product.currency ?? "PKR", quantity: 1 }];
+      if (existing) return current.map((item) => item.id === id ? { ...item, quantity: Math.min(99, item.quantity + safeQuantity) } : item);
+      return [...current, { id, productId: product.productId, productSlug: product.productSlug, title: product.title, image: product.image, imageAlt: product.imageAlt, variantLabel, unitPriceMinor, currency: product.currency ?? "PKR", quantity: safeQuantity }];
     });
     setIsOpen(true);
     return true;

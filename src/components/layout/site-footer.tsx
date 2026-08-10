@@ -53,14 +53,18 @@ export function SiteFooter() {
           </section>
           <FooterGroup heading="Shop" items={footerNavigation.shop} />
           <FooterGroup heading="Customer Care" items={footerNavigation.care} />
-          <FooterGroup heading="About" items={footerNavigation.about} />
+          <FooterGroup heading="Legal" items={footerNavigation.legal} />
         </div>
 
         <div className="mt-14 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Shazia Khushk</p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2" aria-label="Legal placeholders">
-            <span aria-disabled="true">Privacy</span>
-            <span aria-disabled="true">Terms</span>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link className="no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent" href="/privacy">
+              Privacy
+            </Link>
+            <Link className="no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent" href="/terms">
+              Terms
+            </Link>
           </div>
         </div>
       </Container>

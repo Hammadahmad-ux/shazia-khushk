@@ -76,27 +76,6 @@ export function HomeEditorialSections() {
           ))}
         </div>
       </section>
-
-      <section className="home-community-notes" aria-labelledby="community-notes-title">
-        <div className="home-community-notes__intro">
-          <p className="text-[0.6875rem] font-semibold tracking-[0.18em] text-accent uppercase">Our community</p>
-          <h2 id="community-notes-title" className="mt-3 font-display text-[clamp(2rem,3.5vw,3.5rem)] leading-none tracking-[-0.03em]">
-            Customer notes, coming soon.
-          </h2>
-          <p className="mt-4 max-w-xl text-sm leading-7 text-muted">
-            This space will feature feedback from verified customers once orders begin.
-          </p>
-        </div>
-        <div className="home-community-notes__marquee" aria-hidden="true">
-          <div className="home-community-notes__track">
-            {["Customer notes coming soon", "Share your experience after your order", "A place for real customer feedback", "Customer notes coming soon", "Share your experience after your order", "A place for real customer feedback"].map((note, index) => (
-              <span className="home-community-notes__item" key={`${note}-${index}`}>
-                {note}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
     </>
   );
 }

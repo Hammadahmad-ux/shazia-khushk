@@ -1,0 +1,41 @@
+{
+  "_notice": "Shape reference only. Not real product data. Do not insert as-is -- see README.md.",
+  "products": [
+    {
+      "slug": "REPLACE-WITH-CONFIRMED-SLUG",
+      "title": "REPLACE WITH CONFIRMED TITLE",
+      "category": "clothing",
+      "subcategory": null,
+      "description": null,
+      "active": false,
+      "featured": false,
+      "seo_title": null,
+      "seo_description": null,
+      "variants": [
+        {
+          "sku": "REPLACE-WITH-CONFIRMED-SKU",
+          "variant_label": "Ivory / M",
+          "size": "M",
+          "color": "Ivory",
+          "volume": null,
+          "price_minor": null,
+          "compare_at_price_minor": null,
+          "active": false,
+          "inventory": {
+            "quantity_available": 0,
+            "quantity_reserved": 0,
+            "low_stock_threshold": null
+          }
+        }
+      ],
+      "media": [
+        {
+          "url": "/images/REPLACE.jpg",
+          "alt": "REPLACE WITH REAL ALT TEXT",
+          "role": "primary",
+          "position": 0
+        }
+      ]
+    }
+  ]
+}

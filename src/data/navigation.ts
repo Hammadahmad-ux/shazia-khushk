@@ -16,18 +16,16 @@ export const primaryNavigation: readonly NavigationItem[] = [
 ];
 
 export const footerNavigation: Readonly<
-  Record<"shop" | "care" | "about", readonly FooterItem[]>
+  Record<"shop" | "care" | "legal", readonly FooterItem[]>
 > = {
   shop: primaryNavigation,
   care: [
-    { label: "Contact" },
-    { label: "Shipping" },
-    { label: "Returns & Exchanges" },
-    { label: "FAQ" },
+    { label: "Contact", href: "/contact" },
+    { label: "Shipping & Returns", href: "/shipping-returns" },
+    { label: "FAQ", href: "/faq" },
   ],
-  about: [
-    { label: "Our Story" },
-    { label: "Instagram" },
-    { label: "Facebook" },
+  legal: [
+    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Terms & Conditions", href: "/terms" },
   ],
 };

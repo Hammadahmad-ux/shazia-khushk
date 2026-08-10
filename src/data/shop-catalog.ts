@@ -11,6 +11,14 @@ export interface ShopProduct {
   alt: string;
   featuredRank: number;
   newestRank: number;
+  /** Lowest active, purchasable (priced + in stock) variant price. Null when no such variant exists -- never fabricated. */
+  priceMinor: number | null;
+  /** Only set when it genuinely exceeds priceMinor for that same variant -- never invented. */
+  compareAtPriceMinor: number | null;
+  /** True when purchasable variants have different prices, so cards should read "From <price>". */
+  priceVaries: boolean;
+  /** True when at least one variant is active, priced and in stock. */
+  purchasable: boolean;
 }
 
 export const shopCategories: readonly {
@@ -43,7 +51,10 @@ export const shopCategories: readonly {
   },
 ];
 
-export const shopProducts: readonly ShopProduct[] = [
+// Static fallback fixture -- no real pricing exists for it, so every
+// entry gets explicit nulls rather than a fabricated price (this array
+// is currently unused by any live page; see src/data/pdp-catalog.ts).
+const staticShopProducts: readonly Omit<ShopProduct, "priceMinor" | "compareAtPriceMinor" | "priceVaries" | "purchasable">[] = [
   {
     id: "clothing-edit",
     title: "Clothing Edit",
@@ -118,6 +129,18 @@ export const shopProducts: readonly ShopProduct[] = [
   },
 ];
 
+export const shopProducts: readonly ShopProduct[] = staticShopProducts.map((product) => ({
+  ...product,
+  priceMinor: null,
+  compareAtPriceMinor: null,
+  priceVaries: false,
+  purchasable: false,
+}));
+
 export function getShopCategory(slug: string) {
   return shopCategories.find((category) => category.slug === slug) ?? null;
+}
+
+export function categoryLabel(category: ShopCategory): string {
+  return getShopCategory(category)?.label ?? category;
 }

@@ -4,7 +4,6 @@ import { CartTrigger } from "@/components/layout/cart-trigger";
 import { Container } from "@/components/layout/container";
 import { DesktopNavigation } from "@/components/layout/desktop-navigation";
 import { MobileNavigation } from "@/components/layout/mobile-navigation";
-import { SearchTrigger } from "@/components/layout/search-trigger";
 
 interface SiteHeaderProps {
   cartItemCount?: number;
@@ -35,12 +34,6 @@ export function SiteHeader({
         <div className="flex items-center justify-self-end xl:gap-8" aria-label="Header utilities">
           <div className="hidden xl:block">
             <DesktopNavigation />
-          </div>
-          <div className="xl:hidden">
-            <SearchTrigger compact />
-          </div>
-          <div className="hidden xl:block">
-            <SearchTrigger />
           </div>
           <div className="xl:hidden">
             <CartTrigger compact itemCount={cartItemCount} />
