@@ -3993,6 +3993,153 @@ a[href] {
   }
 }
 
+/* Site footer -- deep near-black-oxblood closing band. The bg is matched
+   to the approved lockup's own baked backdrop (~#1b0303) so the logo sits
+   flush with no visible card edge. Two-zone layout: brand ~40%, nav
+   cluster ~60%, then a thin-hairline legal row. */
+.site-footer {
+  border-top: 1px solid rgb(243 236 226 / 0.12);
+  background: #1b0303;
+  color: #f3ece2;
+}
+
+.site-footer__main {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 3.5rem);
+  padding-block: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.site-footer__logo {
+  width: clamp(11rem, 20vw, 14.5rem);
+  height: auto;
+}
+
+.site-footer__brand-copy {
+  max-width: 26ch;
+  margin: 1.5rem 0 0;
+  color: #c9b6a6;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.site-footer__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgb(243 236 226 / 0.32);
+  color: #f3ece2;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color var(--transition-base) var(--ease-standard), color var(--transition-base) var(--ease-standard);
+}
+
+.site-footer__cta-arrow {
+  display: inline-block;
+}
+
+.site-footer__nav {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.site-footer__group-heading {
+  margin: 0 0 1.1rem;
+  color: #c9b6a6;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-footer__group-list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+
+.site-footer__link {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  color: #f3ece2;
+  text-decoration: none;
+  transition: color var(--transition-base) var(--ease-standard);
+}
+
+.site-footer__link span {
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-base) var(--ease-standard);
+}
+
+.site-footer__bottom {
+  border-top: 1px solid rgb(243 236 226 / 0.12);
+}
+
+.site-footer__bottom-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-block: 1rem;
+  color: #a8927f;
+  font-size: 0.75rem;
+}
+
+.site-footer__legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1.5rem;
+  row-gap: 0.5rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site-footer__cta:hover {
+    border-color: #f3ece2;
+    color: color-mix(in srgb, var(--accent) 55%, #f3ece2 45%);
+  }
+
+  .site-footer__link:hover {
+    color: color-mix(in srgb, var(--accent) 55%, #f3ece2 45%);
+  }
+
+  .site-footer__link:hover span {
+    border-color: currentColor;
+  }
+}
+
+@media (min-width: 40rem) {
+  .site-footer__nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 64rem) {
+  .site-footer__main {
+    grid-template-columns: minmax(0, 0.4fr) minmax(0, 0.6fr);
+    align-items: start;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .site-footer__nav {
+    max-width: 34rem;
+    margin-left: auto;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/layout/container";
@@ -9,23 +10,19 @@ interface FooterGroupProps {
 }
 
 function FooterGroup({ heading, items }: FooterGroupProps) {
+  const headingId = `footer-${heading.toLowerCase().replaceAll(" ", "-")}`;
+
   return (
-    <section aria-labelledby={`footer-${heading.toLowerCase().replaceAll(" ", "-")}`}>
-      <h2
-        id={`footer-${heading.toLowerCase().replaceAll(" ", "-")}`}
-        className="mb-5 text-[0.6875rem] font-semibold tracking-[0.14em] text-foreground uppercase"
-      >
+    <section aria-labelledby={headingId}>
+      <h2 className="site-footer__group-heading" id={headingId}>
         {heading}
       </h2>
-      <ul className="grid gap-3 text-sm text-muted">
+      <ul className="site-footer__group-list">
         {items.map((item) => (
           <li key={item.label}>
             {item.href ? (
-              <Link
-                className="inline-flex min-h-8 items-center no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent"
-                href={item.href}
-              >
-                {item.label}
+              <Link className="site-footer__link" href={item.href}>
+                <span>{item.label}</span>
               </Link>
             ) : (
               <span aria-disabled="true">{item.label}</span>
@@ -39,35 +36,51 @@ function FooterGroup({ heading, items }: FooterGroupProps) {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-surface">
-      <Container className="py-14 md:py-20">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-16">
-          <section aria-labelledby="footer-brand">
-            <h2 id="footer-brand" className="font-display text-xl tracking-[0.12em] uppercase">
-              Shazia Khushk
-            </h2>
-            <p className="mt-4 max-w-xs text-sm leading-7 text-muted">
+    <footer className="site-footer">
+      <Container>
+        <div className="site-footer__main">
+          <div className="site-footer__brand">
+            <Image
+              alt="Shazia Khushk"
+              className="site-footer__logo"
+              height={79}
+              src="/brand/shazia-khushk-lockup.png"
+              width={300}
+            />
+            <p className="site-footer__brand-copy">
               A curated store for clothing, fragrance and everyday care.
             </p>
-            <div aria-hidden="true" className="mt-6 h-px w-10 bg-accent" />
-          </section>
-          <FooterGroup heading="Shop" items={footerNavigation.shop} />
-          <FooterGroup heading="Customer Care" items={footerNavigation.care} />
-          <FooterGroup heading="Legal" items={footerNavigation.legal} />
-        </div>
-
-        <div className="mt-14 flex flex-col gap-4 border-t border-border pt-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Shazia Khushk</p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link className="no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent" href="/privacy">
-              Privacy
-            </Link>
-            <Link className="no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent" href="/terms">
-              Terms
+            <Link className="site-footer__cta" href="/shop">
+              Explore the edit
+              <span aria-hidden="true" className="site-footer__cta-arrow">
+                &rarr;
+              </span>
             </Link>
           </div>
+
+          <nav aria-label="Footer" className="site-footer__nav">
+            <FooterGroup heading="Shop" items={footerNavigation.shop} />
+            <FooterGroup heading="Customer Care" items={footerNavigation.care} />
+            <FooterGroup heading="Legal" items={footerNavigation.legal} />
+          </nav>
         </div>
       </Container>
+
+      <div className="site-footer__bottom">
+        <Container>
+          <div className="site-footer__bottom-inner sm:flex-row sm:items-center sm:justify-between">
+            <p>© {new Date().getFullYear()} Shazia Khushk</p>
+            <div className="site-footer__legal-links">
+              <Link className="site-footer__link" href="/privacy">
+                <span>Privacy</span>
+              </Link>
+              <Link className="site-footer__link" href="/terms">
+                <span>Terms</span>
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </div>
     </footer>
   );
 }
