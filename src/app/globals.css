@@ -3557,6 +3557,9 @@ a[href] {
 
 .home-product-edit {
   background: var(--surface);
+  /* Tighter than the section default -- the header sits close under the
+     hero and close above the grid instead of floating in dead space. */
+  padding-top: clamp(2.25rem, 3.5vw, 3rem);
 }
 
 /* Left-aligned editorial header -- eyebrow + serif title on the left,
@@ -3569,9 +3572,9 @@ a[href] {
   align-items: flex-end;
   justify-content: space-between;
   gap: 1rem 1.5rem;
-  margin-bottom: clamp(2.25rem, 4vw, 3.5rem);
+  margin-bottom: clamp(1.5rem, 2.5vw, 2rem);
   border-bottom: 1px solid var(--border);
-  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-bottom: clamp(1rem, 1.75vw, 1.25rem);
   text-align: left;
 }
 
