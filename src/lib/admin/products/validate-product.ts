@@ -16,6 +16,10 @@ export function validateProductPayload(payload: ProductFormPayload): ProductVali
   if (!CATEGORIES.has(payload.category)) errors.push({ field: "category", message: "Select a category." });
   if (payload.variants.length === 0) errors.push({ field: "variants", message: "Add at least one variant." });
 
+  if (payload.media[0]?.mediaType === "video") {
+    errors.push({ field: "media", message: "The first media item must be a photo -- product cards and cart thumbnails can't use a video." });
+  }
+
   const skus = new Set<string>();
   const labels = new Set<string>();
 

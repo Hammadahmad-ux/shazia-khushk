@@ -1,6 +1,6 @@
 import { shopProducts, type ShopProduct } from "@/data/shop-catalog";
 
-export type PdpMedia = { src: string; alt: string };
+export type PdpMedia = { src: string; alt: string; mediaType?: "image" | "video" };
 export type PdpOptionGroup = { name: string; values: readonly string[] };
 export type PdpDetailSection = { title: string; content: string | readonly string[] };
 

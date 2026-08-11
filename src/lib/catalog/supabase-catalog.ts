@@ -32,6 +32,7 @@ interface MediaRow {
   alt: string;
   role: string;
   position: number;
+  media_type: string;
 }
 
 interface ProductAttributesRow {
@@ -60,7 +61,7 @@ interface ProductRow {
 
 const SELECT = `id, slug, title, category, description, featured, created_at, attributes,
   product_variants ( id, sku, variant_label, size, color, volume, price_minor, compare_at_price_minor, active, inventory ( quantity_available ) ),
-  product_media ( url, alt, role, position )`;
+  product_media ( url, alt, role, position, media_type )`;
 
 async function fetchActiveProducts(): Promise<ProductRow[]> {
   const client = getServerSupabaseClient();
@@ -72,6 +73,14 @@ async function fetchActiveProducts(): Promise<ProductRow[]> {
 
 function sortedMedia(row: ProductRow): MediaRow[] {
   return row.product_media.slice().sort((a, b) => a.position - b.position);
+}
+
+// Product cards, cart lines, and hover-swap thumbnails all render this
+// through next/image, which can't display a video -- so the "primary"
+// and "hover" picks must skip video rows even if one was reordered to
+// the front in the admin gallery.
+function firstImage(media: readonly MediaRow[]): MediaRow | undefined {
+  return media.find((item) => item.media_type !== "video");
 }
 
 // A variant only counts as purchasable if it is active, has a
@@ -112,8 +121,8 @@ function summarizePrice(variants: readonly VariantRow[]): PriceSummary {
 
 function toShopProduct(row: ProductRow, featuredRank: number, newestRank: number): ShopProduct {
   const media = sortedMedia(row);
-  const primary = media[0];
-  const hover = media[1];
+  const primary = firstImage(media);
+  const hover = media.find((item) => item !== primary && item.media_type !== "video");
   const price = summarizePrice(row.product_variants);
 
   return {
@@ -230,6 +239,8 @@ export async function getLivePdpProductBySlug(slug: string): Promise<PdpProduct 
 
   const row = data as unknown as ProductRow;
   const media = sortedMedia(row);
+  const primary = firstImage(media);
+  const hover = media.find((item) => item !== primary && item.media_type !== "video");
   const price = summarizePrice(row.product_variants);
 
   return {
@@ -238,13 +249,13 @@ export async function getLivePdpProductBySlug(slug: string): Promise<PdpProduct 
     category: row.category,
     descriptor: row.attributes?.shortDescription ?? "",
     href: `/products/${row.slug}`,
-    image: media[0]?.url ?? "",
-    hoverImage: media[1]?.url,
-    alt: media[0]?.alt ?? row.title,
+    image: primary?.url ?? "",
+    hoverImage: hover?.url,
+    alt: primary?.alt ?? row.title,
     featuredRank: row.featured ? 0 : Number.MAX_SAFE_INTEGER,
     newestRank: 0,
     slug: row.slug,
-    gallery: media.map((item) => ({ src: item.url, alt: item.alt })),
+    gallery: media.map((item) => ({ src: item.url, alt: item.alt, mediaType: item.media_type === "video" ? "video" : "image" })),
     options: toOptionGroups(row.product_variants),
     variants: toPdpVariants(row.product_variants),
     details: buildDetailSections(row),

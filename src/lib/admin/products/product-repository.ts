@@ -44,6 +44,7 @@ interface MediaRow {
   alt: string;
   role: string;
   position: number;
+  media_type: string;
 }
 
 interface ProductListQueryRow extends Pick<ProductRow, "id" | "slug" | "title" | "category" | "active" | "featured"> {
@@ -84,7 +85,7 @@ export async function listProducts(): Promise<readonly ProductListRow[]> {
 
 const VARIANT_AND_MEDIA_SELECT = `
   product_variants ( id, sku, variant_label, size, color, volume, price_minor, compare_at_price_minor, active, inventory ( quantity_available, low_stock_threshold ) ),
-  product_media ( id, url, alt, role, position )`;
+  product_media ( id, url, alt, role, position, media_type )`;
 
 export async function getProductById(id: string): Promise<ProductDetail | null> {
   const client = getServerSupabaseClient();
@@ -143,6 +144,7 @@ export async function getProductById(id: string): Promise<ProductDetail | null> 
         alt: media.alt,
         role: media.role as "primary" | "gallery",
         position: media.position,
+        mediaType: (media.media_type as "image" | "video" | undefined) ?? "image",
       })),
   };
 }
@@ -205,17 +207,30 @@ async function replaceMedia(productId: string, payload: ProductFormPayload): Pro
 
   if (payload.media.length === 0) return;
 
-  const { error: insertError } = await client.from("product_media").insert(
-    payload.media.map((media, index) => ({
-      product_id: productId,
-      url: media.url,
-      alt: media.alt,
-      role: media.role,
-      position: index,
-    })),
-  );
+  const rows = payload.media.map((media, index) => ({
+    product_id: productId,
+    url: media.url,
+    alt: media.alt,
+    role: media.role,
+    position: index,
+    media_type: media.mediaType,
+  }));
 
-  if (insertError) throw new Error(`Failed to update media: ${insertError.message}`);
+  const { error: insertError } = await client.from("product_media").insert(rows);
+  if (!insertError) return;
+  if (!isMissingColumnError(insertError.message, "media_type")) throw new Error(`Failed to update media: ${insertError.message}`);
+
+  // supabase/migrations/20260811120000_product_media_type.sql may not be
+  // applied on every environment yet -- fall back to the pre-migration
+  // column set rather than blocking the whole product save on it.
+  console.warn("[admin] product_media.media_type column is missing -- run the pending migration. Saving media without video/image type.");
+  const rowsWithoutMediaType = rows.map((row) => {
+    const clone: Record<string, unknown> = { ...row };
+    delete clone.media_type;
+    return clone;
+  });
+  const { error: retryError } = await client.from("product_media").insert(rowsWithoutMediaType);
+  if (retryError) throw new Error(`Failed to update media: ${retryError.message}`);
 }
 
 function toProductRowInput(payload: ProductFormPayload): Record<string, unknown> {
@@ -233,8 +248,12 @@ function toProductRowInput(payload: ProductFormPayload): Record<string, unknown>
   };
 }
 
+function isMissingColumnError(message: string, column: string): boolean {
+  return message.toLowerCase().includes(column.toLowerCase()) && message.toLowerCase().includes("column");
+}
+
 function isMissingAttributesColumnError(message: string): boolean {
-  return message.toLowerCase().includes("attributes") && message.toLowerCase().includes("column");
+  return isMissingColumnError(message, "attributes");
 }
 
 function withoutAttributes(row: Record<string, unknown>): Record<string, unknown> {

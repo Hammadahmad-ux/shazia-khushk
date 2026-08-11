@@ -31,6 +31,7 @@ export interface ProductMediaInput {
   alt: string;
   role: "primary" | "gallery";
   position: number;
+  mediaType: "image" | "video";
 }
 
 export interface ProductFormPayload {

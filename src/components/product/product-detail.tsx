@@ -88,7 +88,7 @@ export function ProductDetail({ product }: { product: PdpProduct }) {
             <div className="pdp-gallery__thumbnails">
               {product.gallery.map((media, index) => (
                 <button
-                  aria-label={`Show image ${index + 1}`}
+                  aria-label={`Show ${media.mediaType === "video" ? "video" : "image"} ${index + 1}`}
                   aria-pressed={activeMedia === index}
                   className="pdp-gallery__thumbnail"
                   key={media.src}
@@ -98,35 +98,46 @@ export function ProductDetail({ product }: { product: PdpProduct }) {
                   }}
                   type="button"
                 >
-                  <Image alt="" fill sizes="6rem" src={media.src} />
+                  {media.mediaType === "video" ? (
+                    <video muted playsInline preload="metadata" src={media.src} />
+                  ) : (
+                    <Image alt="" fill sizes="6rem" src={media.src} />
+                  )}
                 </button>
               ))}
             </div>
           )}
 
           <div className="pdp-gallery__desktop-main">
-            {selectedImage && (
-              <>
-                <Image
-                  alt={selectedImage.alt}
-                  className={zoomed ? "pdp-gallery__image is-zoomed" : "pdp-gallery__image"}
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 55vw, 100vw"
-                  src={selectedImage.src}
-                />
-                <button aria-pressed={zoomed} className="pdp-gallery__zoom" onClick={() => setZoomed((value) => !value)} type="button">
-                  {zoomed ? "Reduce image" : "Enlarge image"}
-                </button>
-              </>
-            )}
+            {selectedImage &&
+              (selectedImage.mediaType === "video" ? (
+                <video className="pdp-gallery__image" controls playsInline src={selectedImage.src} />
+              ) : (
+                <>
+                  <Image
+                    alt={selectedImage.alt}
+                    className={zoomed ? "pdp-gallery__image is-zoomed" : "pdp-gallery__image"}
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 55vw, 100vw"
+                    src={selectedImage.src}
+                  />
+                  <button aria-pressed={zoomed} className="pdp-gallery__zoom" onClick={() => setZoomed((value) => !value)} type="button">
+                    {zoomed ? "Reduce image" : "Enlarge image"}
+                  </button>
+                </>
+              ))}
           </div>
 
           <div aria-label="Swipe through product images" className="pdp-gallery__mobile-track">
             {product.gallery.length > 0 ? (
               product.gallery.map((media, index) => (
                 <div className="pdp-gallery__mobile-slide" key={media.src}>
-                  <Image alt={media.alt} fill sizes="100vw" src={media.src} />
+                  {media.mediaType === "video" ? (
+                    <video controls playsInline src={media.src} />
+                  ) : (
+                    <Image alt={media.alt} fill sizes="100vw" src={media.src} />
+                  )}
                   {product.gallery.length > 1 && (
                     <span className="pdp-gallery__count">
                       {index + 1} / {product.gallery.length}

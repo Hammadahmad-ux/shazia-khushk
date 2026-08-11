@@ -5,9 +5,14 @@ import Image from "next/image";
 import { useState, type ChangeEvent, type FormEvent } from "react";
 
 import { createProduct, updateProduct } from "@/lib/admin/actions/product-actions";
+import { createVideoUploadUrl } from "@/lib/admin/actions/create-video-upload-url";
 import { uploadProductImage } from "@/lib/admin/actions/upload-product-image";
 import type { ProductCategory, ProductDetail, ProductFormPayload, ProductMediaInput, ProductVariantInput } from "@/lib/admin/products/types";
 import { validateProductPayload, type ProductValidationError } from "@/lib/admin/products/validate-product";
+import { getBrowserSupabaseClient } from "@/lib/supabase/browser-client";
+
+const VIDEO_TYPES = new Set(["video/mp4", "video/webm", "video/quicktime"]);
+const MAX_VIDEO_BYTES = 50 * 1024 * 1024;
 
 const CATEGORY_OPTIONS: readonly { value: ProductCategory; label: string }[] = [
   { value: "clothing", label: "Clothing" },
@@ -140,7 +145,48 @@ export function ProductForm({ mode, product }: ProductFormProps) {
           continue;
         }
 
-        setMedia((current) => [...current, { url: result.url, alt: title || "Product image", role: current.length === 0 ? "primary" : "gallery", position: current.length }]);
+        setMedia((current) => [...current, { url: result.url, alt: title || "Product image", role: "gallery", position: current.length, mediaType: "image" }]);
+      }
+    } finally {
+      setIsUploading(false);
+      event.target.value = "";
+    }
+  }
+
+  async function handleVideoSelect(event: ChangeEvent<HTMLInputElement>) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    setIsUploading(true);
+    setFormError(null);
+
+    try {
+      for (const file of Array.from(files)) {
+        if (!VIDEO_TYPES.has(file.type)) {
+          setFormError("Use an MP4, WebM, or MOV video.");
+          continue;
+        }
+        if (file.size > MAX_VIDEO_BYTES) {
+          setFormError("Video must be 50MB or smaller.");
+          continue;
+        }
+
+        const prepared = await createVideoUploadUrl(file.name, file.type, file.size);
+        if (prepared.status === "error") {
+          setFormError(prepared.message);
+          continue;
+        }
+
+        const { error: uploadError } = await getBrowserSupabaseClient()
+          .storage.from("product-media")
+          .uploadToSignedUrl(prepared.path, prepared.token, file);
+
+        if (uploadError) {
+          setFormError(`Upload failed: ${uploadError.message}`);
+          continue;
+        }
+
+        setMedia((current) => [...current, { url: prepared.publicUrl, alt: title || "Product video", role: "gallery", position: current.length, mediaType: "video" }]);
       }
     } finally {
       setIsUploading(false);
@@ -150,6 +196,7 @@ export function ProductForm({ mode, product }: ProductFormProps) {
 
   function makePrimary(index: number) {
     setMedia((current) => {
+      if (current[index]?.mediaType === "video") return current;
       const target = current[index];
       const rest = current.filter((_, i) => i !== index);
       return [target, ...rest];
@@ -182,7 +229,10 @@ export function ProductForm({ mode, product }: ProductFormProps) {
           : {}),
       },
       variants,
-      media: media.map((item, index) => ({ ...item, role: index === 0 ? "primary" : "gallery", position: index })),
+      media: (() => {
+        const primaryIndex = media.findIndex((item) => item.mediaType !== "video");
+        return media.map((item, index) => ({ ...item, role: index === primaryIndex ? "primary" : "gallery", position: index }));
+      })(),
     };
   }
 
@@ -437,30 +487,46 @@ export function ProductForm({ mode, product }: ProductFormProps) {
       </section>
 
       <section className="admin-form-section">
-        <h2>Images</h2>
-        <div className="admin-field">
-          <label htmlFor="media-upload">Upload Images</label>
-          <input accept="image/jpeg,image/png,image/webp,image/avif" disabled={isUploading} id="media-upload" multiple onChange={handleFileSelect} type="file" />
-          <p className="admin-field__hint">{isUploading ? "Uploading…" : "JPEG, PNG, WEBP, or AVIF, up to 5MB each. First image is the primary image."}</p>
+        <h2>Images &amp; Video</h2>
+        {errorFor("media") && <p className="checkout-field__error">{errorFor("media")}</p>}
+        <div className="admin-form-grid">
+          <div className="admin-field">
+            <label htmlFor="media-upload">Upload Images</label>
+            <input accept="image/jpeg,image/png,image/webp,image/avif" disabled={isUploading} id="media-upload" multiple onChange={handleFileSelect} type="file" />
+            <p className="admin-field__hint">JPEG, PNG, WEBP, or AVIF, up to 5MB each.</p>
+          </div>
+          <div className="admin-field">
+            <label htmlFor="video-upload">Upload Video</label>
+            <input accept="video/mp4,video/webm,video/quicktime" disabled={isUploading} id="video-upload" multiple onChange={handleVideoSelect} type="file" />
+            <p className="admin-field__hint">MP4, WebM, or MOV, up to 50MB each. A photo is always used as the primary/cart thumbnail.</p>
+          </div>
         </div>
+        {isUploading && <p className="admin-field__hint">Uploading…</p>}
         {media.length > 0 && (
           <div className="admin-media-grid">
-            {media.map((item, index) => (
-              <div className="admin-media-tile" data-primary={index === 0} key={item.url}>
-                <Image alt={item.alt} height={140} src={item.url} unoptimized width={140} />
-                {index === 0 && <span className="admin-media-tile__label">Primary</span>}
-                <div className="admin-media-tile__actions">
-                  {index !== 0 && (
-                    <button onClick={() => makePrimary(index)} type="button">
-                      Make Primary
-                    </button>
+            {media.map((item, index) => {
+              const isPrimary = index === media.findIndex((candidate) => candidate.mediaType !== "video");
+              return (
+                <div className="admin-media-tile" data-primary={isPrimary} key={item.url}>
+                  {item.mediaType === "video" ? (
+                    <video height={140} muted playsInline preload="metadata" src={item.url} width={140} />
+                  ) : (
+                    <Image alt={item.alt} height={140} src={item.url} unoptimized width={140} />
                   )}
-                  <button onClick={() => removeMedia(index)} type="button">
-                    Remove
-                  </button>
+                  {isPrimary && <span className="admin-media-tile__label">Primary</span>}
+                  <div className="admin-media-tile__actions">
+                    {!isPrimary && item.mediaType !== "video" && (
+                      <button onClick={() => makePrimary(index)} type="button">
+                        Make Primary
+                      </button>
+                    )}
+                    <button onClick={() => removeMedia(index)} type="button">
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
