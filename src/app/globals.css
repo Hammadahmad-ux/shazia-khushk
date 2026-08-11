@@ -3697,7 +3697,11 @@ a[href] {
   .pdp-gallery__thumbnail img { object-fit: cover; }
   .pdp-gallery__thumbnail:hover { opacity: 1; }
   .pdp-gallery__thumbnail[aria-pressed="true"] { border-color: var(--accent); opacity: 1; }
-  .pdp-gallery__desktop-main { display: block; }
+  /* Explicit column: without it, a single-image product (no thumbnail
+     rail rendered) leaves this as the grid's only auto-placed item,
+     which CSS drops into column 1 -- the narrow 5.5rem thumbnail
+     column -- collapsing the main image to a tiny square. */
+  .pdp-gallery__desktop-main { display: block; grid-column: 2; }
   .pdp-gallery__mobile-track { display: none; }
   .pdp-related__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
