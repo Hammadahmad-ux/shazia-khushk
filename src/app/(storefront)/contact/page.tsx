@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
-import { PageIntro } from "@/components/layout/page-intro";
-import { getWhatsAppUrl, support } from "@/lib/commerce/business-config";
+import { getWhatsAppUrl, returns, shipping, support } from "@/lib/commerce/business-config";
 import { absoluteUrl } from "@/lib/seo/site-config";
+import { formatMoney } from "@/utils/format-money";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -18,26 +18,58 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="policy-page">
-      <PageIntro eyebrow="Customer support" title="Contact">
-        <p>
-          Need help with a product or an existing order? Our support team is available through
-          WhatsApp or email.
-        </p>
-      </PageIntro>
+    <div className="contact-care">
+      <div className="contact-care__layout">
+        <header className="contact-care__intro">
+          <div className="contact-care__accent" aria-hidden="true" />
+          <p className="contact-care__eyebrow">Customer care</p>
+          <h1 className="contact-care__title">Need a hand?</h1>
+          <p className="contact-care__lead">
+            Questions about a product, delivery or an existing order? Reach out to the Shazia
+            Khushk team and we&rsquo;ll help with what you need.
+          </p>
+        </header>
 
-      <section aria-labelledby="contact-heading" className="policy-section">
-        <h2 id="contact-heading">Get in touch</h2>
-        <div className="contact-methods">
-          <a className="contact-method" href={getWhatsAppUrl()} rel="noopener noreferrer" target="_blank">
-            <span className="contact-method__label">WhatsApp</span>
-            <span className="contact-method__value">+92 332 3637086</span>
+        <section className="contact-care__methods" aria-label="Contact methods">
+          <a
+            className="contact-care__method"
+            href={getWhatsAppUrl()}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <h2 className="contact-care__method-label">WhatsApp</h2>
+            <span className="contact-care__method-value">+92 332 3637086</span>
+            <span className="contact-care__method-cta">
+              Chat with us{" "}
+              <span className="contact-care__method-cta-arrow" aria-hidden="true">
+                &rarr;
+              </span>
+            </span>
           </a>
-          <a className="contact-method" href={`mailto:${support.email}`}>
-            <span className="contact-method__label">Email</span>
-            <span className="contact-method__value">{support.email}</span>
+
+          <a className="contact-care__method" href={`mailto:${support.email}`}>
+            <h2 className="contact-care__method-label">Email</h2>
+            <span className="contact-care__method-value">{support.email}</span>
+            <span className="contact-care__method-cta">
+              Send email{" "}
+              <span className="contact-care__method-cta-arrow" aria-hidden="true">
+                &rarr;
+              </span>
+            </span>
           </a>
-        </div>
+        </section>
+      </div>
+
+      <section className="contact-care__support" aria-labelledby="delivery-info-heading">
+        <h2 id="delivery-info-heading" className="contact-care__support-title">
+          Order &amp; delivery information
+        </h2>
+        <ul className="contact-care__support-list">
+          <li>Cash on Delivery</li>
+          <li>Flat shipping &mdash; {formatMoney(shipping.flatRateMinor)}</li>
+          <li>{shipping.couriers.join(" / ")}</li>
+          <li>{returns.windowDays}-day return / exchange window</li>
+        </ul>
       </section>
     </div>
   );

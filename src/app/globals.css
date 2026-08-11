@@ -1260,8 +1260,9 @@ a[href] {
 
 .checkout-place-order:disabled {
   cursor: not-allowed;
-  background: #a9848d;
-  border-color: #a9848d;
+  border-color: var(--border);
+  background: color-mix(in srgb, var(--border) 45%, transparent);
+  color: var(--muted);
 }
 
 /* Understated confidence list -- confirmed facts only, no badges. */
@@ -1455,29 +1456,1031 @@ a[href] {
   .whatsapp-button__tooltip { display: none; }
 }
 
-.policy-page { display: grid; gap: 3rem; max-width: 42rem; }
-.policy-section h2 { margin: 0 0 1.25rem; font-family: var(--font-display), serif; font-size: 1.75rem; font-weight: 400; }
-.policy-section p { margin: 0 0 1rem; color: var(--foreground); font-size: 0.9375rem; line-height: 1.7; }
-.policy-section p:last-child { margin-bottom: 0; }
-.policy-section ul { display: grid; gap: 0.6rem; margin: 0; padding-left: 1.1rem; color: var(--foreground); font-size: 0.9375rem; line-height: 1.7; }
-.policy-section__note { margin: 1rem 0 0; color: var(--muted); font-size: 0.8125rem; line-height: 1.6; }
-
 .policy-link { color: var(--foreground); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: var(--border); transition: color var(--transition-fast) var(--ease-standard), text-decoration-color var(--transition-fast) var(--ease-standard); }
 .policy-link:hover { color: var(--accent); text-decoration-color: var(--accent); }
 
-.contact-methods { display: grid; gap: 1rem; max-width: 24rem; }
-.contact-method { display: flex; flex-direction: column; gap: 0.3rem; border: 1px solid var(--border); padding: 1.25rem 1.5rem; color: var(--foreground); text-decoration: none; transition: border-color var(--transition-fast) var(--ease-standard); }
-.contact-method:hover { border-color: var(--accent); }
-.contact-method__label { margin: 0; font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
-.contact-method__value { overflow-wrap: break-word; font-size: 1rem; }
+/* /contact -- premium editorial customer-care split, no cards. The left
+   column carries the intro; the right stacks the two real support
+   channels as hairline-separated rows. One oxblood accent (a thin
+   vertical rule) anchors the intro, echoing the shop-hero edge. */
+.contact-care {
+  margin-top: calc(var(--section-space-sm) * -1);
+  padding-block: clamp(2.5rem, 5vw, 5rem) clamp(3rem, 6vw, 6rem);
+}
 
-.faq-list { display: grid; gap: 0; border-top: 1px solid var(--border); }
-.faq-item { border-bottom: 1px solid var(--border); }
-.faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; cursor: pointer; list-style: none; font-size: 1rem; font-weight: 600; color: var(--foreground); }
-.faq-item summary::-webkit-details-marker { display: none; }
-.faq-item summary::after { content: "+"; flex: 0 0 auto; font-size: 1.25rem; font-weight: 400; color: var(--muted); transition: transform var(--transition-fast) var(--ease-standard); }
-.faq-item[open] summary::after { content: "\2212"; }
-.faq-item__answer { margin: 0 0 1.5rem; max-width: 38rem; color: var(--muted); font-size: 0.9375rem; line-height: 1.7; }
+.contact-care__layout {
+  display: grid;
+  gap: clamp(3rem, 7vw, 5rem);
+}
+
+.contact-care__intro {
+  position: relative;
+  padding-left: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.contact-care__accent {
+  position: absolute;
+  top: 0.35rem;
+  left: 0;
+  width: 1px;
+  height: clamp(3.5rem, 10vw, 6.75rem);
+  background: var(--accent);
+}
+
+.contact-care__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.contact-care__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(3rem, 5vw, 5.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+
+.contact-care__lead {
+  margin: 1.75rem 0 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 1.05vw, 1rem);
+  line-height: 1.7;
+}
+
+.contact-care__methods {
+  display: grid;
+  align-content: start;
+}
+
+.contact-care__method {
+  display: grid;
+  gap: 0.85rem;
+  padding-block: clamp(1.75rem, 3vw, 2.25rem);
+  border-bottom: 1px solid var(--border);
+  color: var(--foreground);
+  text-decoration: none;
+}
+
+.contact-care__method:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.contact-care__method-label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition: color var(--transition-fast) var(--ease-standard);
+}
+
+.contact-care__method-value {
+  overflow-wrap: anywhere;
+  font-size: clamp(1rem, 1.35vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+}
+
+.contact-care__method-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  min-height: 2.75rem;
+  margin-top: 0.35rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: border-color var(--transition-base) var(--ease-standard), gap var(--transition-base) var(--ease-standard);
+}
+
+.contact-care__method-cta-arrow {
+  display: inline-block;
+  transition: transform var(--transition-base) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .contact-care__method:hover .contact-care__method-label {
+    color: var(--accent);
+  }
+
+  .contact-care__method:hover .contact-care__method-cta {
+    border-color: var(--accent);
+  }
+
+  .contact-care__method:hover .contact-care__method-cta-arrow {
+    transform: translateX(0.2rem);
+  }
+}
+
+/* Support context -- a quiet footnote below the split, top-ruled. */
+.contact-care__support {
+  margin-top: clamp(3rem, 7vw, 5.5rem);
+  padding-top: clamp(1.75rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--border);
+}
+
+.contact-care__support-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.contact-care__support-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1.4rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 64rem) {
+  .contact-care__layout {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(3rem, 7vw, 6.5rem);
+  }
+}
+
+/* Load-in -- the same restrained rise used by the editorial/shop
+   intros, so /contact never feels busier than the rest of the site. */
+@media (prefers-reduced-motion: no-preference) {
+  .contact-care__eyebrow {
+    animation: editorial-intro-rise 450ms var(--ease-standard) both;
+  }
+
+  .contact-care__accent {
+    animation: editorial-intro-fade 500ms 60ms var(--ease-standard) both;
+  }
+
+  .contact-care__title {
+    animation: editorial-intro-rise 500ms 90ms var(--ease-standard) both;
+  }
+
+  .contact-care__lead {
+    animation: editorial-intro-rise 500ms 170ms var(--ease-standard) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-care__method-cta,
+  .contact-care__method-cta-arrow {
+    transition: none;
+  }
+}
+
+/* /faq -- editorial customer-help split. Left intro (sticky on
+   desktop), right hairline accordion list. Questions stay native
+   <details>/<summary>; only presentation changes. */
+.faq-page {
+  margin-top: calc(var(--section-space-sm) * -1);
+  padding-block: clamp(2.5rem, 5vw, 5rem) clamp(3rem, 6vw, 6rem);
+}
+
+.faq-page__layout {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+.faq-page__intro {
+  max-width: 24rem;
+}
+
+.faq-page__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.faq-page__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(3rem, 5vw, 5.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.faq-page__lead {
+  margin: 1.75rem 0 0;
+  max-width: 34ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 1.05vw, 1rem);
+  line-height: 1.7;
+}
+
+.faq-page__list {
+  min-width: 0;
+}
+
+/* Accordion -- no cards, no radius, no shadow. Hairline rules carry
+   the rhythm; the + / - indicator is two crossing bars that collapse
+   into a single rule when open. */
+.faq-page__accordion {
+  border-top: 1px solid var(--border);
+}
+
+.faq-page__item {
+  border-bottom: 1px solid var(--border);
+}
+
+.faq-page__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: clamp(4rem, 6vw, 4.75rem);
+  padding-block: clamp(1.25rem, 1.8vw, 1.5rem);
+  cursor: pointer;
+  list-style: none;
+  font-size: clamp(0.95rem, 1vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--foreground);
+}
+
+.faq-page__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-page__question {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.faq-page__indicator {
+  flex: 0 0 auto;
+  display: grid;
+  width: 1.125rem;
+  height: 1.125rem;
+  place-items: center;
+  color: var(--muted);
+  transition: color var(--transition-fast) var(--ease-standard);
+}
+
+.faq-page__indicator-bar {
+  grid-area: 1 / 1;
+  width: 0.875rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.faq-page__indicator-bar--vertical {
+  width: 1px;
+  height: 0.875rem;
+  transition: transform var(--transition-base) var(--ease-standard), opacity var(--transition-base) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .faq-page__item summary:hover .faq-page__indicator {
+    color: var(--accent);
+  }
+}
+
+.faq-page__item[open] .faq-page__indicator {
+  color: var(--accent);
+}
+
+.faq-page__item[open] .faq-page__indicator-bar--vertical {
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+.faq-page__answer {
+  margin: 0 0 clamp(1.5rem, 2.5vw, 2rem);
+  max-width: 65ch;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
+/* Open state -- a short fade/rise on reveal only; the native toggle
+   handles close instantly. No bounce, 250-300ms max. */
+@keyframes faq-answer-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(-0.3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bottom support continuation -- quiet, secondary to the FAQ list. */
+.faq-page__support {
+  margin-top: clamp(3rem, 7vw, 5.5rem);
+  padding-top: clamp(1.75rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--border);
+}
+
+.faq-page__support-title {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.faq-page__support-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem clamp(2rem, 4vw, 3.25rem);
+  margin-top: 1.5rem;
+}
+
+.faq-page__support-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color var(--transition-base) var(--ease-standard), gap var(--transition-base) var(--ease-standard);
+}
+
+.faq-page__support-link-arrow {
+  display: inline-block;
+  transition: transform var(--transition-base) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .faq-page__support-link:hover {
+    border-color: var(--accent);
+  }
+
+  .faq-page__support-link:hover .faq-page__support-link-arrow {
+    transform: translateX(0.2rem);
+  }
+}
+
+@media (min-width: 64rem) {
+  .faq-page__layout {
+    grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
+    align-items: start;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  /* Gently sticky below the fixed header; the list column is taller, so
+     the intro rides along without nested scrolling. */
+  .faq-page__intro {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+/* Load-in -- same restrained rise as the editorial/shop intros. */
+@media (prefers-reduced-motion: no-preference) {
+  .faq-page__eyebrow {
+    animation: editorial-intro-rise 450ms var(--ease-standard) both;
+  }
+
+  .faq-page__title {
+    animation: editorial-intro-rise 500ms 90ms var(--ease-standard) both;
+  }
+
+  .faq-page__lead {
+    animation: editorial-intro-rise 500ms 170ms var(--ease-standard) both;
+  }
+
+  .faq-page__item[open] .faq-page__answer {
+    animation: faq-answer-reveal 280ms var(--ease-standard) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faq-page__indicator,
+  .faq-page__indicator-bar--vertical,
+  .faq-page__support-link,
+  .faq-page__support-link-arrow {
+    transition: none;
+  }
+}
+
+/* /shipping-returns -- editorial delivery-information page. Full-width
+   intro, then a work area: sticky At-a-glance rail on the left and
+   numbered policy sections on the right. No cards, no badges. */
+.shipping-returns-page {
+  margin-top: calc(var(--section-space-sm) * -1);
+  padding-block: clamp(2.5rem, 5vw, 5rem) clamp(3rem, 6vw, 6rem);
+}
+
+.shipping-returns-page__intro {
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.shipping-returns-page__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.shipping-returns-page__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(3rem, 5vw, 5.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.shipping-returns-page__lead {
+  margin: 1.75rem 0 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 1.05vw, 1rem);
+  line-height: 1.7;
+}
+
+.shipping-returns-page__layout {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* At a glance -- hairline quick-reference, concise, no boxes. */
+.shipping-returns-page__glance {
+  align-self: start;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.shipping-returns-page__glance-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.shipping-returns-page__glance-list {
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.shipping-returns-page__glance-item {
+  display: grid;
+  gap: 0.45rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.shipping-returns-page__glance-term {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.shipping-returns-page__glance-value {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.4;
+}
+
+.shipping-returns-page__glance-value strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.shipping-returns-page__glance-desc {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Detailed sections -- numbered serif headings, hairline separators. */
+.shipping-returns-page__sections {
+  min-width: 0;
+}
+
+.shipping-returns-page__section {
+  padding-block: clamp(2rem, 3vw, 2.5rem);
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+.shipping-returns-page__section:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.shipping-returns-page__section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.shipping-returns-page__section-number {
+  color: var(--accent);
+  font-family: var(--font-body), sans-serif;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+}
+
+.shipping-returns-page__list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.shipping-returns-page__body {
+  max-width: 65ch;
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
+.shipping-returns-page__list li {
+  max-width: 65ch;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
+.shipping-returns-page__list strong,
+.shipping-returns-page__body strong {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+.shipping-returns-page__note {
+  margin: 1.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+/* Support continuation -- same restrained CTA family as /faq. */
+.shipping-returns-page__support {
+  margin-top: clamp(3rem, 7vw, 5.5rem);
+  padding-top: clamp(1.75rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--border);
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+.shipping-returns-page__support-title {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.shipping-returns-page__support-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem clamp(2rem, 4vw, 3.25rem);
+  margin-top: 1.5rem;
+}
+
+.shipping-returns-page__support-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color var(--transition-base) var(--ease-standard), gap var(--transition-base) var(--ease-standard);
+}
+
+.shipping-returns-page__support-link-arrow {
+  display: inline-block;
+  transition: transform var(--transition-base) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shipping-returns-page__support-link:hover {
+    border-color: var(--accent);
+  }
+
+  .shipping-returns-page__support-link:hover .shipping-returns-page__support-link-arrow {
+    transform: translateX(0.2rem);
+  }
+}
+
+@media (min-width: 64rem) {
+  .shipping-returns-page__layout {
+    grid-template-columns: minmax(0, 0.38fr) minmax(0, 0.62fr);
+    align-items: start;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  /* Gently sticky below the fixed header; the right column is taller,
+     so the quick summary rides along without nested scrolling. */
+  .shipping-returns-page__glance {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+/* Load-in -- same restrained rise as the editorial/shop intros. */
+@media (prefers-reduced-motion: no-preference) {
+  .shipping-returns-page__eyebrow {
+    animation: editorial-intro-rise 450ms var(--ease-standard) both;
+  }
+
+  .shipping-returns-page__title {
+    animation: editorial-intro-rise 500ms 90ms var(--ease-standard) both;
+  }
+
+  .shipping-returns-page__lead {
+    animation: editorial-intro-rise 500ms 170ms var(--ease-standard) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shipping-returns-page__support-link,
+  .shipping-returns-page__support-link-arrow {
+    transition: none;
+  }
+}
+
+/* /privacy -- a quiet legal read, not a marketing page. Compact
+   editorial header, then a sticky 'On this page' contents rail beside
+   a controlled-width reading column. Policy wording untouched. */
+.privacy-page {
+  margin-top: calc(var(--section-space-sm) * -1);
+  padding-block: clamp(2.5rem, 5vw, 5rem) clamp(3rem, 6vw, 6rem);
+}
+
+.privacy-page__intro {
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.privacy-page__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.privacy-page__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.75rem, 4.5vw, 5rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.privacy-page__lead {
+  margin: 1.5rem 0 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 1.05vw, 1rem);
+  line-height: 1.7;
+}
+
+.privacy-page__layout {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* Contents rail -- real section links, quiet, sticky on desktop. */
+.privacy-page__index {
+  align-self: start;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.privacy-page__index-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.privacy-page__index-list {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.privacy-page__index-list a {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color var(--transition-fast) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .privacy-page__index-list a:hover {
+    color: var(--accent);
+  }
+}
+
+/* Reading column -- serif section headings, hairline separators,
+   semantic bullets, ~68ch measure, comfortable spacing. */
+.privacy-page__content {
+  min-width: 0;
+}
+
+.privacy-page__section {
+  padding-block: clamp(2rem, 3vw, 2.5rem);
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+.privacy-page__section:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.privacy-page__section-title {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.privacy-page__content p,
+.privacy-page__list li {
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 0.9vw, 1rem);
+  line-height: 1.75;
+}
+
+.privacy-page__content p {
+  margin: 1.25rem 0 0;
+}
+
+.privacy-page__list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.privacy-page__content a {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 64rem) {
+  .privacy-page__layout {
+    grid-template-columns: minmax(0, 0.28fr) minmax(0, 0.72fr);
+    align-items: start;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  /* Gently sticky below the fixed header; the reading column is taller. */
+  .privacy-page__index {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+/* Load-in -- same restrained rise as the editorial intros. */
+@media (prefers-reduced-motion: no-preference) {
+  .privacy-page__eyebrow {
+    animation: editorial-intro-rise 450ms var(--ease-standard) both;
+  }
+
+  .privacy-page__title {
+    animation: editorial-intro-rise 500ms 90ms var(--ease-standard) both;
+  }
+
+  .privacy-page__lead {
+    animation: editorial-intro-rise 500ms 170ms var(--ease-standard) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .privacy-page__index-list a {
+    transition: none;
+  }
+}
+
+/* /terms -- same quiet legal-read treatment as /privacy: compact
+   editorial header, sticky 'On this page' rail, controlled measure.
+   Terms wording untouched. */
+.terms-page {
+  margin-top: calc(var(--section-space-sm) * -1);
+  padding-block: clamp(2.5rem, 5vw, 5rem) clamp(3rem, 6vw, 6rem);
+}
+
+.terms-page__intro {
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.terms-page__eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.terms-page__title {
+  margin: 1.25rem 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.75rem, 4.5vw, 5rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.terms-page__lead {
+  margin: 1.5rem 0 0;
+  max-width: 42ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 1.05vw, 1rem);
+  line-height: 1.7;
+}
+
+.terms-page__layout {
+  display: grid;
+  gap: clamp(2.5rem, 6vw, 5rem);
+}
+
+/* Contents rail -- real section links, quiet, sticky on desktop. */
+.terms-page__index {
+  align-self: start;
+  border-top: 1px solid var(--border);
+  padding-top: 1.5rem;
+}
+
+.terms-page__index-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.terms-page__index-list {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.terms-page__index-list a {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  color: var(--foreground);
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  text-decoration: none;
+  transition: color var(--transition-fast) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .terms-page__index-list a:hover {
+    color: var(--accent);
+  }
+}
+
+/* Reading column -- serif section headings, hairline separators,
+   semantic bullets, ~68ch measure, comfortable spacing. */
+.terms-page__content {
+  min-width: 0;
+}
+
+.terms-page__section {
+  padding-block: clamp(2rem, 3vw, 2.5rem);
+  border-bottom: 1px solid var(--border);
+  scroll-margin-top: calc(var(--header-height) + 1.5rem);
+}
+
+.terms-page__section:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.terms-page__section-title {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.terms-page__content p,
+.terms-page__list li {
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: clamp(0.9375rem, 0.9vw, 1rem);
+  line-height: 1.75;
+}
+
+.terms-page__content p {
+  margin: 1.25rem 0 0;
+}
+
+.terms-page__list {
+  display: grid;
+  gap: 0.6rem;
+  margin: 1.25rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.terms-page__content a {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 64rem) {
+  .terms-page__layout {
+    grid-template-columns: minmax(0, 0.28fr) minmax(0, 0.72fr);
+    align-items: start;
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  /* Gently sticky below the fixed header; the reading column is taller. */
+  .terms-page__index {
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+  }
+}
+
+/* Load-in -- same restrained rise as the editorial intros. */
+@media (prefers-reduced-motion: no-preference) {
+  .terms-page__eyebrow {
+    animation: editorial-intro-rise 450ms var(--ease-standard) both;
+  }
+
+  .terms-page__title {
+    animation: editorial-intro-rise 500ms 90ms var(--ease-standard) both;
+  }
+
+  .terms-page__lead {
+    animation: editorial-intro-rise 500ms 170ms var(--ease-standard) both;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terms-page__index-list a {
+    transition: none;
+  }
+}
 
 .order-confirmation__reference { margin: 0.75rem 0 0; color: var(--muted); font-size: 0.9375rem; }
 .order-confirmation__reference strong { color: var(--foreground); }
@@ -2291,7 +3294,7 @@ a[href] {
   }
 
   .shop-hero__cta:hover .shop-hero__cta-arrow {
-    transform: translateX(0.3rem);
+    transform: translateX(0.2rem);
   }
 }
 
@@ -2974,6 +3977,19 @@ a[href] {
 
   .home-page {
     margin-block: calc(var(--section-space-lg) * -1);
+  }
+
+  /* Cart/checkout/PDP already undo the full desktop main padding; the
+     editorial care/legal pages must do the same so every interior page
+     starts at a comparable distance below the sticky header (the base
+     rule only cancels the mobile-scale padding). */
+  .checkout-page,
+  .contact-care,
+  .faq-page,
+  .shipping-returns-page,
+  .privacy-page,
+  .terms-page {
+    margin-top: calc(var(--section-space-lg) * -1);
   }
 }
 

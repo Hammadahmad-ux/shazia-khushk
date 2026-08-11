@@ -62,7 +62,7 @@ export function MobileNavigation() {
               {primaryNavigation.map((item) => (
                 <li key={item.href}>
                   <Link
-                    className="flex min-h-12 items-center border-b border-border/70 py-3 font-display text-2xl leading-tight no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent"
+                    className="flex min-h-12 items-center border-b border-border py-3 font-display text-2xl leading-tight no-underline transition-colors duration-[var(--transition-fast)] hover:text-accent"
                     href={item.href}
                     onClick={closeMenu}
                   >

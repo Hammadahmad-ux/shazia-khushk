@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { PageIntro } from "@/components/layout/page-intro";
 import { getWhatsAppUrl, returns, shipping, support } from "@/lib/commerce/business-config";
 import { absoluteUrl } from "@/lib/seo/site-config";
 import { formatMoney } from "@/utils/format-money";
@@ -19,45 +18,122 @@ export const metadata: Metadata = {
 
 export default function ShippingReturnsPage() {
   return (
-    <div className="policy-page">
-      <PageIntro eyebrow="Customer care" title="Shipping &amp; Returns">
-        <p>Factual, current policy for orders placed on this site.</p>
-      </PageIntro>
+    <div className="shipping-returns-page">
+      <header className="shipping-returns-page__intro">
+        <p className="shipping-returns-page__eyebrow">Order &amp; delivery</p>
+        <h1 className="shipping-returns-page__title">
+          Shipping,
+          <br />
+          made simple.
+        </h1>
+        <p className="shipping-returns-page__lead">Clear information about delivery, payment and returns.</p>
+      </header>
 
-      <section aria-labelledby="shipping-heading" className="policy-section" id="shipping">
-        <h2 id="shipping-heading">Shipping</h2>
-        <ul>
-          <li>{formatMoney(shipping.flatRateMinor)} flat shipping fee on every order.</li>
-          <li>Orders are fulfilled through {shipping.couriers.join(" or ")}.</li>
-          <li>Cash on Delivery is available on every order.</li>
-        </ul>
-        <p className="policy-section__note">
-          Delivery timing may vary depending on the destination and courier service.
-        </p>
-      </section>
+      <div className="shipping-returns-page__layout">
+        <aside className="shipping-returns-page__glance" aria-labelledby="at-a-glance-heading">
+          <h2 id="at-a-glance-heading" className="shipping-returns-page__glance-title">
+            At a glance
+          </h2>
+          <dl className="shipping-returns-page__glance-list">
+            <div className="shipping-returns-page__glance-item">
+              <dt className="shipping-returns-page__glance-term">Shipping</dt>
+              <dd className="shipping-returns-page__glance-value">
+                <span className="shipping-returns-page__glance-desc">Flat nationwide rate</span>
+                <strong>{formatMoney(shipping.flatRateMinor)}</strong>
+              </dd>
+            </div>
+            <div className="shipping-returns-page__glance-item">
+              <dt className="shipping-returns-page__glance-term">Payment</dt>
+              <dd className="shipping-returns-page__glance-value">Cash on Delivery</dd>
+            </div>
+            <div className="shipping-returns-page__glance-item">
+              <dt className="shipping-returns-page__glance-term">Couriers</dt>
+              <dd className="shipping-returns-page__glance-value">{shipping.couriers.join(" / ")}</dd>
+            </div>
+            <div className="shipping-returns-page__glance-item">
+              <dt className="shipping-returns-page__glance-term">Returns &amp; exchanges</dt>
+              <dd className="shipping-returns-page__glance-value">
+                Within <strong>{returns.windowDays} days</strong>
+              </dd>
+            </div>
+          </dl>
+        </aside>
 
-      <section aria-labelledby="returns-heading" className="policy-section" id="returns">
-        <h2 id="returns-heading">Returns &amp; Exchanges</h2>
-        <ul>
-          <li>Returns and exchanges are accepted within {returns.windowDays} days of delivery.</li>
-        </ul>
-        <p>
-          To start a return or exchange, contact our support team and we&rsquo;ll guide you through
-          the process for your order.
-        </p>
-        <div className="contact-methods">
-          <a className="contact-method" href={getWhatsAppUrl()} rel="noopener noreferrer" target="_blank">
-            <span className="contact-method__label">WhatsApp</span>
-            <span className="contact-method__value">+923323637086</span>
+        <div className="shipping-returns-page__sections">
+          <section aria-labelledby="shipping-heading" className="shipping-returns-page__section" id="shipping">
+            <h2 className="shipping-returns-page__section-title" id="shipping-heading">
+              <span aria-hidden="true" className="shipping-returns-page__section-number">
+                01
+              </span>
+              Shipping
+            </h2>
+            <ul className="shipping-returns-page__list">
+              <li>
+                <strong>{formatMoney(shipping.flatRateMinor)}</strong> flat shipping fee on every order.
+              </li>
+              <li>Orders are fulfilled through {shipping.couriers.join(" or ")}.</li>
+            </ul>
+            <p className="shipping-returns-page__note">
+              Delivery timing may vary depending on the destination and courier service.
+            </p>
+          </section>
+
+          <section aria-labelledby="payment-heading" className="shipping-returns-page__section" id="payment">
+            <h2 className="shipping-returns-page__section-title" id="payment-heading">
+              <span aria-hidden="true" className="shipping-returns-page__section-number">
+                02
+              </span>
+              Payment
+            </h2>
+            <p className="shipping-returns-page__body">
+              Cash on Delivery is available on every order. Pay in cash when your order arrives.
+            </p>
+          </section>
+
+          <section aria-labelledby="returns-heading" className="shipping-returns-page__section" id="returns">
+            <h2 className="shipping-returns-page__section-title" id="returns-heading">
+              <span aria-hidden="true" className="shipping-returns-page__section-number">
+                03
+              </span>
+              Returns &amp; exchanges
+            </h2>
+            <ul className="shipping-returns-page__list">
+              <li>
+                Returns and exchanges are accepted within <strong>{returns.windowDays} days</strong>{" "}
+                of delivery.
+              </li>
+            </ul>
+            <p className="shipping-returns-page__body">
+              To start a return or exchange, contact our support team and we&rsquo;ll guide you
+              through the process for your order.
+            </p>
+          </section>
+        </div>
+      </div>
+
+      <section aria-labelledby="support-heading" className="shipping-returns-page__support" id="support">
+        <h2 className="shipping-returns-page__support-title" id="support-heading">
+          Need help with an order?
+        </h2>
+        <div className="shipping-returns-page__support-links">
+          <a
+            className="shipping-returns-page__support-link"
+            href={getWhatsAppUrl()}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Chat with us on WhatsApp{" "}
+            <span aria-hidden="true" className="shipping-returns-page__support-link-arrow">
+              &rarr;
+            </span>
           </a>
-          <a className="contact-method" href={`mailto:${support.email}`}>
-            <span className="contact-method__label">Email</span>
-            <span className="contact-method__value">{support.email}</span>
+          <a className="shipping-returns-page__support-link" href={`mailto:${support.email}`}>
+            Email us{" "}
+            <span aria-hidden="true" className="shipping-returns-page__support-link-arrow">
+              &rarr;
+            </span>
           </a>
         </div>
-        <p className="policy-section__note">
-          For anything not covered here, contact support for case-specific assistance.
-        </p>
       </section>
     </div>
   );

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { PageIntro } from "@/components/layout/page-intro";
 import { getWhatsAppUrl, returns, shipping, support } from "@/lib/commerce/business-config";
 import { absoluteUrl } from "@/lib/seo/site-config";
 import { formatMoney } from "@/utils/format-money";
@@ -46,34 +45,65 @@ const faqs: readonly { question: string; answer: string }[] = [
 
 export default function FaqPage() {
   return (
-    <div className="policy-page">
-      <PageIntro eyebrow="Customer care" title="Frequently Asked Questions">
-        <p>Answers to the questions we hear most from customers.</p>
-      </PageIntro>
+    <div className="faq-page">
+      <div className="faq-page__layout">
+        <header className="faq-page__intro">
+          <p className="faq-page__eyebrow">Customer care</p>
+          <h1 className="faq-page__title">
+            Questions,
+            <br />
+            answered.
+          </h1>
+          <p className="faq-page__lead">
+            Find answers about payment, shipping, returns, product availability and getting in
+            touch with the Shazia Khushk team.
+          </p>
+        </header>
 
-      <section aria-labelledby="faq-heading" className="policy-section">
-        <h2 className="sr-only" id="faq-heading">
-          Questions
+        <section className="faq-page__list" aria-labelledby="faq-heading">
+          <h2 className="sr-only" id="faq-heading">
+            Frequently asked questions
+          </h2>
+          <div className="faq-page__accordion">
+            {faqs.map((faq) => (
+              <details className="faq-page__item" key={faq.question}>
+                <summary>
+                  <span className="faq-page__question">{faq.question}</span>
+                  <span className="faq-page__indicator" aria-hidden="true">
+                    <span className="faq-page__indicator-bar" />
+                    <span className="faq-page__indicator-bar faq-page__indicator-bar--vertical" />
+                  </span>
+                </summary>
+                <p className="faq-page__answer">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section className="faq-page__support" aria-labelledby="still-need-help-heading">
+        <h2 id="still-need-help-heading" className="faq-page__support-title">
+          Still need help?
         </h2>
-        <div className="faq-list">
-          {faqs.map((faq) => (
-            <details className="faq-item" key={faq.question}>
-              <summary>{faq.question}</summary>
-              <p className="faq-item__answer">{faq.answer}</p>
-            </details>
-          ))}
-        </div>
-        <p className="policy-section__note">
-          Still have a question? Reach us on{" "}
-          <a className="policy-link" href={getWhatsAppUrl()} rel="noopener noreferrer" target="_blank">
-            WhatsApp
-          </a>{" "}
-          or by{" "}
-          <a className="policy-link" href={`mailto:${support.email}`}>
-            email
+        <div className="faq-page__support-links">
+          <a
+            className="faq-page__support-link"
+            href={getWhatsAppUrl()}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Chat with us on WhatsApp{" "}
+            <span className="faq-page__support-link-arrow" aria-hidden="true">
+              &rarr;
+            </span>
           </a>
-          .
-        </p>
+          <a className="faq-page__support-link" href={`mailto:${support.email}`}>
+            Email us{" "}
+            <span className="faq-page__support-link-arrow" aria-hidden="true">
+              &rarr;
+            </span>
+          </a>
+        </div>
       </section>
     </div>
   );
