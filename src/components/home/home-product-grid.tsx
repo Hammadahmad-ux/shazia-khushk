@@ -9,10 +9,9 @@ export function HomeProductGrid({ products }: { products: readonly ShopProduct[]
   return (
     <section className="home-section home-product-edit" aria-labelledby="featured-products-title">
       <header className="home-product-edit__header">
-        <div className="home-product-edit__heading">
-          <p className="home-product-edit__eyebrow">Curated selection</p>
-          <h2 id="featured-products-title">The Edit</h2>
-        </div>
+        <p className="home-product-edit__eyebrow">Curated selection</p>
+        <h2 id="featured-products-title">The Edit</h2>
+        <span aria-hidden="true" className="home-product-edit__divider" />
         <Link className="home-product-edit__all" href="/shop">
           View all
           <span aria-hidden="true" className="home-product-edit__all-arrow">
