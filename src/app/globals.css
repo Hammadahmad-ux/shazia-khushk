@@ -4053,6 +4053,11 @@ a[href] {
   }
 }
 
+.site-header__logo {
+  width: clamp(7rem, 12vw, 9.5rem);
+  height: auto;
+}
+
 /* Site footer -- deep near-black-oxblood closing band. The bg is matched
    to the approved lockup's own baked backdrop (~#1b0303) so the logo sits
    flush with no visible card edge. Two-zone layout: brand ~40%, nav

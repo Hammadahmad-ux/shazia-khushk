@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { CartTrigger } from "@/components/layout/cart-trigger";
@@ -25,10 +26,10 @@ export function SiteHeader({
         </div>
 
         <Link
-          className="relative inline-flex min-h-11 items-center justify-self-center font-display text-[clamp(0.9375rem,1.5vw,1.2rem)] leading-none tracking-[0.13em] whitespace-nowrap uppercase no-underline after:absolute after:right-0 after:bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-[var(--transition-base)] hover:after:scale-x-100 focus-visible:after:scale-x-100 xl:justify-self-start"
+          className="relative inline-flex min-h-11 items-center justify-self-center after:absolute after:right-0 after:-bottom-1 after:left-0 after:h-px after:origin-left after:scale-x-0 after:bg-accent after:transition-transform after:duration-[var(--transition-base)] hover:after:scale-x-100 focus-visible:after:scale-x-100 xl:justify-self-start"
           href="/"
         >
-          Shazia Khushk
+          <Image alt="Shazia Khushk" className="site-header__logo" height={67} priority src="/brand/shazia-khushk-header-logo.png" width={286} />
         </Link>
 
         <div className="flex items-center justify-self-end xl:gap-8" aria-label="Header utilities">
