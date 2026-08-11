@@ -171,22 +171,26 @@ export function ProductForm({ mode, product }: ProductFormProps) {
           continue;
         }
 
-        const prepared = await createVideoUploadUrl(file.name, file.type, file.size);
-        if (prepared.status === "error") {
-          setFormError(prepared.message);
-          continue;
+        try {
+          const prepared = await createVideoUploadUrl(file.name, file.type, file.size);
+          if (prepared.status === "error") {
+            setFormError(prepared.message);
+            continue;
+          }
+
+          const { error: uploadError } = await getBrowserSupabaseClient()
+            .storage.from("product-media")
+            .uploadToSignedUrl(prepared.path, prepared.token, file);
+
+          if (uploadError) {
+            setFormError(`Upload failed: ${uploadError.message}`);
+            continue;
+          }
+
+          setMedia((current) => [...current, { url: prepared.publicUrl, alt: title || "Product video", role: "gallery", position: current.length, mediaType: "video" }]);
+        } catch (error) {
+          setFormError(error instanceof Error ? `Upload failed: ${error.message}` : "Video upload failed unexpectedly.");
         }
-
-        const { error: uploadError } = await getBrowserSupabaseClient()
-          .storage.from("product-media")
-          .uploadToSignedUrl(prepared.path, prepared.token, file);
-
-        if (uploadError) {
-          setFormError(`Upload failed: ${uploadError.message}`);
-          continue;
-        }
-
-        setMedia((current) => [...current, { url: prepared.publicUrl, alt: title || "Product video", role: "gallery", position: current.length, mediaType: "video" }]);
       }
     } finally {
       setIsUploading(false);
