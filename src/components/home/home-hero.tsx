@@ -7,7 +7,7 @@ export function HomeHero() {
       <div className="home-hero__art" aria-hidden="true">
         <Image
           alt=""
-          className="object-cover object-[center_20%]"
+          className="home-hero__image object-cover"
           fill
           priority
           sizes="(min-width: 90rem) 90rem, 100vw"

@@ -3544,6 +3544,13 @@ video.pdp-gallery__image { position: absolute; inset: 0; width: 100%; height: 10
   mask-image: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.06) 23%, #000 59%);
 }
 
+/* Editorial portrait: the woman sits in the right ~45% of the source
+   image, so object-position is tuned per breakpoint to keep her face
+   in frame without cropping it, whichever axis the container overflows. */
+.home-hero__image {
+  object-position: 84% 14%;
+}
+
 .home-hero__content {
   width: 100%;
   display: flex;
@@ -3558,6 +3565,19 @@ video.pdp-gallery__image { position: absolute; inset: 0; width: 100%; height: 10
 
 .home-hero-primary {
   color: var(--surface);
+}
+
+/* Tablet (portrait/landscape): the hero box is taller relative to its
+   width than on desktop, so pull the crop in a little further right
+   and keep the vertical anchor near the top so the face stays clear. */
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .home-hero__image {
+    object-position: 98% 10%;
+  }
+
+  .home-hero__copy {
+    max-width: 20rem;
+  }
 }
 
 .home-product-edit {
@@ -4018,18 +4038,31 @@ video.pdp-gallery__image { position: absolute; inset: 0; width: 100%; height: 10
     min-width: 9.5rem;
   }
 
+  /* Below tablet width the overlay treatment has no room to keep the
+     subject's face clear of the copy, so the portrait becomes a
+     full-width banner stacked above the text instead of a background
+     the text sits on -- same pattern as .shop-hero at this width. */
   .home-hero {
-    min-height: 38rem;
+    flex-direction: column;
+    min-height: 0;
   }
 
   .home-hero__art {
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.16) 40%, #000 76%);
-    mask-image: linear-gradient(90deg, transparent 0%, rgb(0 0 0 / 0.16) 40%, #000 76%);
+    position: relative;
+    inset: auto;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    mask-image: none;
+    -webkit-mask-image: none;
   }
 
   .home-hero__content {
     align-items: flex-start;
-    padding-block: 4.5rem;
+    padding: 2.75rem var(--container-gutter) 3.5rem;
+  }
+
+  .home-hero__image {
+    object-position: 78% 12%;
   }
 }
 
